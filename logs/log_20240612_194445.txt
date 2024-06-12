@@ -1,0 +1,3 @@
+[Wed Jun 12 19:44:45 2024] Serverul ruleaza
+[Wed Jun 12 19:44:58 2024] Serverul se opreste
+[Wed Jun 12 19:44:58 2024] Serverul s-a oprit

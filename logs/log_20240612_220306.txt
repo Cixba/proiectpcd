@@ -1,0 +1,12 @@
+[Wed Jun 12 22:03:06 2024] Serverul ruleaza
+[Wed Jun 12 22:03:09 2024] Client PID[6702] conectat
+[Wed Jun 12 22:03:10 2024] Clientul PID[6702] s-a deconectat
+[Wed Jun 12 22:03:13 2024] Admin PID[6704] conectat
+[Wed Jun 12 22:03:14 2024] Admin PID[6706] conectat
+[Wed Jun 12 22:03:17 2024] Adminul PID[6706] s-a deconectat
+[Wed Jun 12 22:03:18 2024] Adminul PID[6704] s-a deconectat
+[Wed Jun 12 22:03:19 2024] Serverul se opreste
+[Wed Jun 12 22:03:19 2024] Clientul PID[6702] a fost deconectat de catre server
+[Wed Jun 12 22:03:19 2024] Clientul PID[6704] a fost deconectat de catre server
+[Wed Jun 12 22:03:19 2024] Clientul PID[6706] a fost deconectat de catre server
+[Wed Jun 12 22:03:19 2024] Serverul s-a oprit

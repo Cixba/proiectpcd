@@ -27,6 +27,7 @@ int pid;            //server pid
 //creare nou proces pentru clientul conectat
 void create_new_process(struct connection conn)
 {
+    //fprintf(stdout,"in create new process\n");
     switch(fork())
     {
         case -1://eroare
@@ -69,7 +70,7 @@ void handle_sigint_sigtstp(int sig)
     if(pid == getpid())
     {
         write_log("Serverul se opreste");
-        fprintf(stdout,"      \n");
+        fprintf(stdout,"             \n");
         char log[64];
         for(int i=0;i<connections_index;i++)
         {
@@ -104,6 +105,17 @@ int get_connection_pid(int sockfd)
     return pid;
 }
 
+int is_admin_connected()
+{
+    for(int i=0;i<connections_index;i++)
+        {
+            if(connections[i].type == ADMIN) return 1;
+            fprintf(stdout,"%d\n",connections[i].type );
+        }
+    
+    return 0;
+}
+
 int main(int argc, char* argv[])
 {
     int /*tcp_sockfd, unix_sockfd,*/clientfd,adminfd;
@@ -130,7 +142,7 @@ int main(int argc, char* argv[])
     fd_set readfds;
     int max;
     int current_con_pid;
-
+    int i=0;
     for(;;)
     {//start_time
         FD_ZERO(&readfds);
@@ -166,6 +178,11 @@ int main(int argc, char* argv[])
         if(FD_ISSET(unix_sockfd, &readfds))
         {
             //acceptam conexiunea cu un adminitrator
+            //admin_connected
+            if(is_admin_connected())
+            {
+                fprintf(stdout, "Un administrator este deja conectat\n",i);
+            }
             adminfd = accept_unix_connection(unix_sockfd);
             current_con_pid = get_connection_pid(adminfd);
             
@@ -175,11 +192,13 @@ int main(int argc, char* argv[])
             new_connection.sockfd = adminfd;
             new_connection.type = ADMIN;
             connections[connections_index++] = new_connection;
+
             
             //cream un nou procespentru conexiunea stabilita
             create_new_process(new_connection);
             
         }
+        i++;
 
     }
 
