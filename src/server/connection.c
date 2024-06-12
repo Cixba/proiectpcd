@@ -16,6 +16,7 @@ int read_from_client(int sockfd, char *str)
     int bytes_read = 0;
 
     if((bytes_read = read(sockfd, str, BUFFER_SIZE)) < 0) handle_read_error(errno);
+    str[bytes_read] = '\0';
 
     return bytes_read;
 }

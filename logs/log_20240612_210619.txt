@@ -1,0 +1,9 @@
+[Wed Jun 12 21:06:19 2024] Serverul ruleaza
+[Wed Jun 12 21:06:20 2024] Admin PID[5282] conectat
+[Wed Jun 12 21:06:21 2024] Trimte errors spre admin PID[5282]
+[Wed Jun 12 21:06:32 2024] Admin PID[5288] conectat
+[Wed Jun 12 21:06:33 2024] Trimte logs spre admin PID[5288]
+[Wed Jun 12 21:10:09 2024] Serverul se opreste
+[Wed Jun 12 21:10:09 2024] Clientul PID[5282] a fost deconectat de catre server
+[Wed Jun 12 21:10:09 2024] Clientul PID[5288] a fost deconectat de catre server
+[Wed Jun 12 21:10:09 2024] Serverul s-a oprit

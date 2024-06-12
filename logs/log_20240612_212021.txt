@@ -1,0 +1,6 @@
+[Wed Jun 12 21:20:21 2024] Serverul ruleaza
+[Wed Jun 12 21:20:24 2024] Admin PID[5813] conectat
+[Wed Jun 12 21:20:26 2024] Trimte logs spre admin PID[5813]
+[Wed Jun 12 21:21:16 2024] Serverul se opreste
+[Wed Jun 12 21:21:16 2024] Clientul PID[5813] a fost deconectat de catre server
+[Wed Jun 12 21:21:16 2024] Serverul s-a oprit

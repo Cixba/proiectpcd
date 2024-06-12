@@ -1,0 +1,6 @@
+[Wed Jun 12 21:26:09 2024] Serverul ruleaza
+[Wed Jun 12 21:26:11 2024] Admin PID[6098] conectat
+[Wed Jun 12 21:26:13 2024] Trimte logs spre admin PID[6098]
+[Wed Jun 12 21:28:08 2024] Serverul se opreste
+[Wed Jun 12 21:28:08 2024] Clientul PID[6098] a fost deconectat de catre server
+[Wed Jun 12 21:28:08 2024] Serverul s-a oprit

@@ -128,10 +128,28 @@ void read_multiple_data()
 
 void handle_view_logs()
 {
+    fprintf(stdout, "trimit view logs spre server\n");
     //trimit mesajul de request spre server
     write_to_server(VIEW_LOGS);
 
+    char logs_list[BUFFER_SIZE];
+    char log_file[100];
+    //astept lista de logs
+    read_from_server(logs_list);
+    strcpy(log_file, "empty");
+    //verific alegerea
+    while(!strstr(logs_list, log_file))
+    {
+        fprintf(stdout, "Logs:\n%s\n", logs_list);
+        fprintf(stdout, "Alege un fisier log: ");
+        log_file[0] = '\0';
+        fscanf(stdin, "%s",log_file);
+    }
+    //trimit alegerea spre server
+    write_to_server(log_file);
+
     //astept raspunsul de la server
+
     read_multiple_data();
 }
 
@@ -183,6 +201,7 @@ void ui()
         fprintf(stdout,"<<< ");
         //fscanf(stdin, "%d",&option);
         fscanf(stdin, "%s%*[^\n]%*c", buf);
+        fprintf(stdout,"after read");
 
         //verific optiunea introdusa
         if(strstr(buf, "1")) option = 1;
