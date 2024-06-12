@@ -13,9 +13,9 @@
 // functia proceseaza cererea de schimbare a vitezei
 void handle_change_speed_request(int sockfd, char *input_file, double speed_factor)
 {
-    char output_file[BUFFER_SIZE];
-    char command[BUFFER_SIZE];
-    char response[BUFFER_SIZE];
+    char output_file[50];
+    char command[COMMAND_SIZE];
+    char response[150];
 
     // creeaza numele fisierului de output
     snprintf(output_file, sizeof(output_file), "output_speed_%g.mp4", speed_factor);
@@ -29,54 +29,24 @@ void handle_change_speed_request(int sockfd, char *input_file, double speed_fact
     int ret = system(command);
 
     if(ret == 0) {
-        snprintf(response, sizeof(response), "Fișierul a fost procesat cu succes și salvat ca %s\n", output_file);
+        snprintf(response, sizeof(response), "Fisierul a fost procesat cu succes si salvat ca %s\n", output_file);
     } else {
-        snprintf(response, sizeof(response), "A apărut o eroare la procesarea fișierului.\n");
+        snprintf(response, sizeof(response), "A aparut o eroare la procesarea fisierului.\n");
     }
 
     // trimite raspunsul catre client
     write_to_client(sockfd, response);
 }
 
-// functia proceseaza cererea de schimbare a vitezei
-void handle_change_speed_request_streaming(int sockfd, char *input_file, double speed_factor)
-{
-    FILE *fp;
-    char buffer[BUFFER_SIZE];
-    char command[BUFFER_SIZE];
-    size_t bytes_read;
-
-    struct sockaddr_in addr;
-    socklen_t addr_len = sizeof(addr);
-
-    // obtinem portul socket-ului client
-    if (getsockname(sockfd, (struct sockaddr*)&addr, &addr_len) == -1) {
-        perror("getsockname");
-        return 1;
-    }
-
-    int port = ntohs(addr.sin_port);
-
-    // rulam comanda ffmpeg pentru a trimite video-ul catre client prin streaming
-    snprintf(command, sizeof(command), "ffmpeg -re -i %s -f mpegts udp://127.0.0.1:%s", input_file, port);
-
-    fp = popen(command, "r");
-    if (fp == NULL) {
-        perror("popen");
-        return;
-    }
-}
-
-
 //functia gestioneaza conexiunea cu un client
 void handle_client_connection(struct connection conn)
 {
-    printf("Hm");
     char str[BUFFER_SIZE];
     for(;;)
     { 
         read_from_client(conn.sockfd, str);
         char *s;
+        //do something with received data
         
         //check for disconnect
         if(strstr(str,CLIENT_DISCONNECTED))
@@ -92,27 +62,21 @@ void handle_client_connection(struct connection conn)
         }
         if(strstr(str, "CHANGE_SPEED"))
         {
-            char input_file[BUFFER_SIZE], mode[BUFFER_SIZE];
+            char input_file[100];
             double speed_factor;
-            char log[64];
+            char log[150];
 
             // parsez request-ul
-            sscanf(str, "CHANGE_SPEED %s %s %lf", mode, input_file, &speed_factor);
-            if (strcmp(mode, "DOWNLOAD") == 0)
-            {
-                // procesez request-ul
-                handle_change_speed_request(conn.sockfd, input_file, speed_factor);
-            } else if (strcmp(mode, "STREAMING") == 0) {
-                handle_change_speed_request_streaming(conn.sockfd, input_file, speed_factor);
-            }
+            sscanf(str, "CHANGE_SPEED %s %lf", input_file, &speed_factor);
+
+            // procesez request-ul
+            handle_change_speed_request(conn.sockfd, input_file, speed_factor);
 
             // scriu in fisierul de log
             sprintf(log, "[%s] Schimbare viteza pentru fisierul %s cu factorul %lf\n", get_local_time(), input_file, speed_factor);
             write_log(log);
         }
-
-        //send the response to server
-        write_to_client(conn.sockfd, str);
+        
     }
     
 }

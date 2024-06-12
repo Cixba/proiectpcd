@@ -15,8 +15,13 @@ int errfd = -1;
 //deschide fisierul de erori          
 int open_error_file()
 {
-    if((errfd = open(ERROR_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0666)) < 0) handle_open_error(errno);
-
+    //deschid fisierul daca exista
+    /*if((errfd = open(ERROR_PATH, O_WRONLY)) < 0)
+    {
+        if((errfd = open(ERROR_PATH, O_WRONLY | O_CREAT, 0666)) < 0) handle_open_error(errno);
+    }*/
+    if((errfd = open(ERROR_PATH, O_WRONLY | O_CREAT, 0666)) < 0) handle_open_error(errno);
+    
     return errfd;
 }
 

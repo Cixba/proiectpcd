@@ -38,91 +38,28 @@ void handle_change_speed_option()
 {
     char input_file[BUFFER_SIZE];
     double speed_factor;
-    int send_option;
-
     char str[BUFFER_SIZE];
 
     // calea catre fisier
-    fprintf(stdout, "Introduceți calea fișierului de intrare: ");
+    fprintf(stdout, "Introduceti calea fisierului de intrare: ");
     fscanf(stdin, "%s", input_file);
 
-    fprintf(stdout, "Introduceți factorul de viteză (de exemplu, 2.0 pentru dublarea vitezei): ");
+    fprintf(stdout, "Introduceti factorul de viteza (de exemplu, 2.0 pentru dublarea vitezei): ");
     fscanf(stdin, "%lf", &speed_factor);
-
-    fprintf(stdout, "Cum doresti sa fie transmis video-ul procesat\n1. Descarcare\n2. Streaming\n");
-    fscanf(stdin, "%d", &send_option);
 
     fprintf(stdout, "Procesarea fisierului video a inceput. Asteptati...\n");
 
-    if (send_option == 1)
-    {
-        // request-ul catre server
-        snprintf(str, sizeof(str), "CHANGE_SPEED DOWNLOAD %s %lf", input_file, speed_factor);
+    // request-ul catre server
+    snprintf(str, sizeof(str), "CHANGE_SPEED %s %lf", input_file, speed_factor);
 
-        // trimite request-ul catre server
-        write_to_server(str);
+    // trimite request-ul catre server
+    write_to_server(str);
 
-        // citeste raspunsul de la server
-        read_from_server(str);
+    // citeste raspunsul de la server
+    read_from_server(str);
 
-        // afiseaza raspunsul
-        fprintf(stdout, "%s\n", str);
-    } else if (send_option == 2) {
-        // request-ul catre server
-        snprintf(str, sizeof(str), "CHANGE_SPEED STREAMING %s %lf", input_file, speed_factor);
-        write_to_server(str);
-
-        int sockfd;
-        struct sockaddr_in server_addr;
-        char buffer[65536];
-
-        // creez socket-ul UDP
-        if ((sockfd = socket(AF_INET, SOCK_DGRAM, 0)) < 0) {
-            perror("Socket creation failed");
-            exit(EXIT_FAILURE);
-        }
-
-        memset(&server_addr, 0, sizeof(server_addr));
-
-        server_addr.sin_family = AF_INET;
-        server_addr.sin_port = htons(INADDR_ANY);
-        server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
-
-        if (bind(sockfd, (const struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
-            perror("bind");
-            close(sockfd);
-            exit(EXIT_FAILURE);
-        }
-
-        // deschid un pipe care trimite output-ul de la server catre ffplay
-        FILE *pipe = popen("ffplay -i -", "w");
-        if (!pipe) {
-            perror("popen");
-            close(sockfd);
-            exit(EXIT_FAILURE);
-        }
-
-        while (1) {
-            int n;
-            socklen_t len = sizeof(server_addr);
-
-            // astept input de la server
-            n = recvfrom(sockfd, (char *)buffer, 65536, MSG_WAITALL,
-                        (struct sockaddr *)&server_addr, &len);
-            if (n < 0) {
-                perror("recvfrom");
-                pclose(pipe);
-                close(sockfd);
-                exit(EXIT_FAILURE);
-            }
-
-            // scriu output-ul de la server in pipe
-            fwrite(buffer, 1, n, pipe);
-            fflush(pipe);
-        }   
-    } else {
-        fprintf(stdout, "Optiune necunoscuta!");
-    }
+    // afiseaza raspunsul
+    fprintf(stdout, "%s\n", str);
 }
 
 //functia scrie catre server continutul din str
@@ -144,27 +81,7 @@ void read_from_server(char *str)
 void make_menu()
 {
     fprintf(stdout,"Alege o optiune:\n");
-    fprintf(stdout,"1.Scrie un mesaj spre server\n");
-    fprintf(stdout,"2. Schimba viteza unui fisier video\n");
-}
-
-//functie exemplu de trimitere mesaj spre server
-void handle_write_option()
-{
-    char str[BUFFER_SIZE];
-    //input client
-    fprintf(stdout, "Scrie un mesaj: ");
-    fscanf(stdin,"%*[\n]");         //citesc un \n
-    fscanf(stdin,"%[^\n]%*c",str);  //citesc tot mai putin \n in str, apoi citesc si \n
-    
-    //trimit mesaj spre server
-    write_to_server(str);
-
-    //astept raspunsul de la verver
-    read_from_server(str);
-    
-    //afisez raspunsul clientului
-    fprintf(stdout,"%s",str);
+    fprintf(stdout,"1. Schimba viteza unui fisier video\n");
 }
 
 void handle_option(int option)
@@ -172,9 +89,6 @@ void handle_option(int option)
     switch(option)
     {
         case 1:
-            handle_write_option();
-            break;
-        case 2:
             handle_change_speed_option();
             break;
         default:
@@ -197,7 +111,6 @@ void ui()
         //fscanf(stdin, "%d",&option);
         fscanf(stdin, "%s%*[^\n]%*c", buf);
         if(strstr(buf, "1")) option = 1;
-        else if(strstr(buf, "2")) option = 2;
         else option = -1;
 
         handle_option(option);

@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <errno.h>
 #include <fcntl.h>
+#include <dirent.h>
 
 #include "handle_admin.h"
 #include "constants.h"
@@ -13,12 +14,40 @@
 //functia trimite fisierul de logs catre administrator
 void handle_view_logs_request(int sockfd)
 {
-    char str[BUFFER_SIZE];
+    char str[BUFFER_SIZE], copy[BUFFER_SIZE];
     int fd, bytes_read;
+    DIR *logs;
+    struct dirent *entry;
+    char path[BUFFER_SIZE + 100];
+    //deschid folderul de logs si preiau numele fisierelor
+    logs = opendir(LOG_DIR_PATH);
+    while((entry = readdir(logs)))
+    {
+        if(strstr(entry->d_name,"log"))
+        {
+            strcpy(str + strlen(str), entry->d_name);
+            strcpy(str + strlen(str), "\n");
+        }
+    }
+
+    closedir(logs);
+
+    str[strlen(str)] = '\0';
+    strcpy(copy, str);
+
+    //trimit lista de fisire la admin
+    write_to_client(sockfd,str);
+    str[0] = '\0';
+
+    //astept fisierul ales de admin
+    read_from_client(sockfd,str);
+    fprintf(stdout,"%s\n",str);
+    //formez calea fisierului
+    sprintf(path + 0, "%s%s",LOG_PATH,str);
+    fprintf(stdout,"%s\n",path);
 
     //deschid fisierul de log pentru citire
-    if((fd = open(LOG_PATH, O_RDONLY)) < 0) handle_open_error(errno);
-
+    if((fd = open(path, O_RDONLY)) < 0) handle_open_error(errno);
     //trimit fisierul spre admin
     while((bytes_read = read(fd, str, BUFFER_SIZE)) > 0)
     {
@@ -125,6 +154,7 @@ void handle_admin_connection(struct connection conn)
             char log[64];
             sprintf(log, "Adminul PID[%d] s-a deconectat",conn.pid);
             write_log(log);
+
 
             disconnect_client(conn);
             //inchidem sockedtul

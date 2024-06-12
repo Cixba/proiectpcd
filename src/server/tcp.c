@@ -57,7 +57,7 @@ int accept_tcp_connection(const int sockfd)
     bzero((char *) &cli_addr, sizeof(cli_addr));
     unsigned int len = sizeof(cli_addr);
     newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &len);
-
+       
     if (newsockfd < 0) handle_tcp_accept_error(errno);
 
     return newsockfd;
