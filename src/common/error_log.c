@@ -44,11 +44,11 @@ char * get_local_time_error()
 int write_error(char *str)
 {
     if(errfd == -1) errfd = open_error_file();
-    char log[LOG_SIZE];
+    char log[1024];
     if(strlen(str) == 0) return 0;
     sprintf(log, "[%s] %s\n",get_local_time_error(), str);
     flock(errfd,LOCK_EX);
     if(write(errfd, log, strlen(log)) < 0) handle_write_error(errno);
     flock(errfd,LOCK_UN);
     return 1;
-}
+}

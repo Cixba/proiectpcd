@@ -1,6 +1,0 @@
-[Wed Jun 12 21:13:43 2024] Serverul ruleaza
-[Wed Jun 12 21:13:45 2024] Admin PID[55438] conectat
-[Wed Jun 12 21:13:47 2024] Trimte logs spre admin PID[55438]
-[Wed Jun 12 21:14:26 2024] Serverul se opreste
-[Wed Jun 12 21:14:26 2024] Clientul PID[55438] a fost deconectat de catre server
-[Wed Jun 12 21:14:26 2024] Serverul s-a oprit

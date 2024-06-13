@@ -1,5 +1,0 @@
-[Wed Jun 12 19:41:26 2024] Serverul ruleaza
-[Wed Jun 12 19:41:29 2024] Admin PID[4103] conectat
-[Wed Jun 12 19:43:26 2024] Serverul se opreste
-[Wed Jun 12 19:43:26 2024] Clientul PID[4103] a fost deconectat de catre server
-[Wed Jun 12 19:43:26 2024] Serverul s-a oprit

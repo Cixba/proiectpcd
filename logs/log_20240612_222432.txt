@@ -1,5 +1,0 @@
-[Wed Jun 12 22:24:32 2024] Serverul ruleaza
-[Wed Jun 12 22:24:34 2024] Admin PID[7298] conectat
-[Wed Jun 12 22:25:02 2024] Serverul se opreste
-[Wed Jun 12 22:25:02 2024] Clientul PID[7298] a fost deconectat de catre server
-[Wed Jun 12 22:25:02 2024] Serverul s-a oprit

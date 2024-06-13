@@ -118,6 +118,7 @@ int is_admin_connected()
 
 int main(int argc, char* argv[])
 {
+	
     int /*tcp_sockfd, unix_sockfd,*/clientfd,adminfd;
     int parent = 0;
 
@@ -143,6 +144,7 @@ int main(int argc, char* argv[])
     int max;
     int current_con_pid;
     int i=0;
+
     for(;;)
     {//start_time
         FD_ZERO(&readfds);
@@ -202,4 +204,4 @@ int main(int argc, char* argv[])
 
     }
 
-}
+}

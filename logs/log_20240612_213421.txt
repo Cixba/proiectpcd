@@ -1,6 +1,0 @@
-[Wed Jun 12 21:34:21 2024] Serverul ruleaza
-[Wed Jun 12 21:34:24 2024] Admin PID[63221] conectat
-[Wed Jun 12 21:34:26 2024] Trimte logs spre admin PID[63221]
-[Wed Jun 12 21:34:56 2024] Serverul se opreste
-[Wed Jun 12 21:34:56 2024] Clientul PID[63221] a fost deconectat de catre server
-[Wed Jun 12 21:34:56 2024] Serverul s-a oprit

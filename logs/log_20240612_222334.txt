@@ -1,9 +1,0 @@
-[Wed Jun 12 22:23:34 2024] Serverul ruleaza
-[Wed Jun 12 22:23:36 2024] Admin PID[7252] conectat
-[Wed Jun 12 22:23:37 2024] Admin PID[7254] conectat
-[Wed Jun 12 22:23:48 2024] Adminul PID[7254] s-a deconectat
-[Wed Jun 12 22:23:49 2024] Adminul PID[7252] s-a deconectat
-[Wed Jun 12 22:23:50 2024] Serverul se opreste
-[Wed Jun 12 22:23:50 2024] Clientul PID[7252] a fost deconectat de catre server
-[Wed Jun 12 22:23:50 2024] Clientul PID[7254] a fost deconectat de catre server
-[Wed Jun 12 22:23:50 2024] Serverul s-a oprit

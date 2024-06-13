@@ -34,13 +34,15 @@ char * get_local_time()
 //deschide fisierul de logs
 int open_log_file()
 {
-    char path[64];
+    char path[1024];
     time_t now = time(NULL);
     struct tm *t = localtime(&now);
     
+    
+    
     strftime(log_file_name, sizeof(log_file_name)-1, "log_%Y%m%d_%H%M%S.txt", t);
     sprintf(path, "%s%s",LOG_PATH,log_file_name);
-    
+    printf("%s", path);
     if ((logfd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0666)) < 0) handle_open_error(errno);
 }
 
@@ -53,4 +55,4 @@ int write_log(char *str)
     if(write(logfd, log, strlen(log)) < 0) handle_write_error(errno);
     flock(logfd,LOCK_UN);
     return 1;
-}
+}
